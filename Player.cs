@@ -6,6 +6,7 @@ public partial class Player : CharacterBody2D
     public int Health = 3;
     public int MaxHealth = 3;
     public const float Speed = 100.0f;
+    public int JumpBufferTimer = 0;
     public const float JumpVelocity = -200.0f;
     public int JumpTimer = 0;
     public bool Jumping = false;
@@ -39,13 +40,17 @@ public partial class Player : CharacterBody2D
 
 
         // Handle Jump.
-        if (Input.IsActionJustPressed("ui_accept") && IsOnFloor())
+        if (IsOnFloor() && ((Input.IsActionPressed("ui_accept") && JumpBufferTimer <= 5) || Input.IsActionJustPressed("ui_accept")))
         {
             Jumping = true;
         }
-        JumpHeldDown = false;
         if (Input.IsActionPressed("ui_accept")) {
             JumpHeldDown = true;
+            JumpBufferTimer++;
+        }
+        else {
+            JumpHeldDown = false;
+            JumpBufferTimer = 0;
         }
         if (Jumping) {
             velocity.Y = JumpVelocity;

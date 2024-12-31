@@ -1,9 +1,9 @@
 [gd_scene load_steps=6 format=3 uid="uid://coa4nmmw7lm1y"]
 
-[ext_resource type="Script" path="res://Scenes/Player/Player.cs" id="1_u42ef"]
-[ext_resource type="Texture2D" uid="uid://cpi5yoyhkq0yd" path="res://Assets/Characters/Player.png" id="2_iup0v"]
-[ext_resource type="Script" path="res://HealthContainer.cs" id="3_75gg7"]
-[ext_resource type="Script" path="res://Scenes/Components/InputController.cs" id="4_vbyjx"]
+[ext_resource type="Script" path="res://Scenes/Objects/Player.cs" id="1_1yx15"]
+[ext_resource type="Texture2D" uid="uid://cpi5yoyhkq0yd" path="res://Assets/Characters/Player.png" id="2_k0ual"]
+[ext_resource type="Script" path="res://Scenes/Components/InputController.cs" id="4_k2850"]
+[ext_resource type="Script" path="res://Scenes/Components/HealthController.cs" id="5_5sn2p"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_tb8ot"]
 size = Vector2(22, 30)
@@ -11,7 +11,7 @@ size = Vector2(22, 30)
 [node name="Player" type="CharacterBody2D"]
 position = Vector2(31, -24)
 collision_layer = 2
-script = ExtResource("1_u42ef")
+script = ExtResource("1_1yx15")
 
 [node name="Camera2D" type="Camera2D" parent="."]
 position = Vector2(6, -31)
@@ -22,18 +22,15 @@ drag_vertical_enabled = true
 texture_filter = 1
 position = Vector2(7, -9.625)
 scale = Vector2(1.875, 1.875)
-texture = ExtResource("2_iup0v")
+texture = ExtResource("2_k0ual")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(7, -4)
 shape = SubResource("RectangleShape2D_tb8ot")
 
-[node name="HealthContainer" type="HBoxContainer" parent="."]
-offset_left = -31.0
-offset_top = 24.0
-offset_right = 9.0
-offset_bottom = 64.0
-script = ExtResource("3_75gg7")
-
 [node name="InputController" type="Node" parent="."]
-script = ExtResource("4_vbyjx")
+script = ExtResource("4_k2850")
+
+[node name="HealthController" type="Node" parent="."]
+script = ExtResource("5_5sn2p")
+Health = 5

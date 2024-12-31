@@ -1,36 +1,40 @@
 using Godot;
-using System;
+using TestProject.Utilities;
 
-public partial class HealthContainer : HBoxContainer
+namespace TestProject.Scenes.Components
 {
-    int HeartsToDisplay = 3;
-    public override void _Ready()
+    public partial class HealthContainer : HBoxContainer
     {
-        if (GetParent() is not Player player) return;
-
-        player.OnHealthChange += OnHealthChange;
-    }
-    private void RemoveAllChildren() {
-        foreach (var child in GetChildren()) {
-            RemoveChild(child);
-            child.QueueFree();
+        int HeartsToDisplay = 3;
+        public override void _Ready()
+        {
+            if (GetParent().GetParent() is not HealthController controller) return;
+            GD.Print("Added controller");
+            controller.OnHealthChange += OnHealthChange;
+            OnHealthChange(null, new HealthChangeArgs(0, controller.Health));
         }
-    }
-    private void OnHealthChange(int oldHealth, int newHealth) {
-        if (oldHealth != newHealth) return;
-        
-        RemoveAllChildren();
-        HeartsToDisplay = newHealth;
-        Image fullHeart = new Image();
-        fullHeart.Load("res://Assets/UI/Heart.png");
-        ImageTexture texture = new ImageTexture();
-        texture.SetImage(fullHeart);
-        for (int i = 0; i < HeartsToDisplay; i++) {
-            TextureRect rect = new()
-            {
-                Texture = texture
-            };
-            AddChild(rect);
+        private void RemoveAllChildren() {
+            foreach (var child in GetChildren()) {
+                RemoveChild(child);
+                child.QueueFree();
+            }
+        }
+        private void OnHealthChange(CollisionObject2D sender, HealthChangeArgs args) {
+            if (args.OldHealth != args.NewHealth) return;
+            
+            //RemoveAllChildren();
+            HeartsToDisplay = args.NewHealth;
+            Image fullHeart = new Image();
+            fullHeart.Load("res://Assets/UI/Heart.png");
+            ImageTexture texture = new ImageTexture();
+            texture.SetImage(fullHeart);
+            for (int i = 0; i < HeartsToDisplay; i++) {
+                TextureRect rect = new()
+                {
+                    Texture = texture
+                };
+                AddChild(rect);
+            }
         }
     }
 }

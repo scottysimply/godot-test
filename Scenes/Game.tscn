@@ -1,7 +1,7 @@
 [gd_scene load_steps=6 format=4 uid="uid://br8cj5a75qwp3"]
 
 [ext_resource type="Texture2D" uid="uid://c8ategne1maei" path="res://Assets/Tilemaps/GrassyTiles.png" id="1_4l5h5"]
-[ext_resource type="PackedScene" uid="uid://coa4nmmw7lm1y" path="res://Scenes/Player/Player.tscn" id="2_pj4h6"]
+[ext_resource type="PackedScene" uid="uid://coa4nmmw7lm1y" path="res://Scenes/Objects/Player.tscn" id="2_pj4h6"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_v58rp"]
 

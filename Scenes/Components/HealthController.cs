@@ -6,7 +6,9 @@ namespace TestProject.Scenes.Components
     public partial class HealthController : Node
     {
         [ExportGroup("Properties")]
+        [Export]
         public int MaxHealth { get; set; } = 5;
+        [Export]
         public int Health { get; set; }
         private int _oldHealth;
         public CollisionObject2D Parent { get; set; }

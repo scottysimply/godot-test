@@ -12,7 +12,14 @@ namespace TestProject.Scenes.Components
         public float JumpSpeed { get; set; } = 200f;
         [Export]
         public int JumpLength { get; set; } = 20;
+        [Export]
+        public int CoyoteFrames { get; set; } = 5;
+        [Export]
+        public int JumpBuffer { get; set; } = 10;
+        [Export]
+        public bool DoubleJumpEnabled { get; set; } = false;
         int _jumpBufferTimer = 0;
+        int _coyoteTimer = 0;
         int _jumpTimer = 0;
         bool _jumping = false;
         bool _jumpHeldDown = false;
@@ -35,12 +42,16 @@ namespace TestProject.Scenes.Components
             {
                 velocity += Parent.GetGravity() * (float)delta;
             }
-
+            _coyoteTimer++;
+            if (Parent.IsOnFloor()) {
+                _coyoteTimer = 0;
+            }
 
             // Handle Jump.
-            if (Parent.IsOnFloor() && ((Input.IsActionPressed("ui_accept") && _jumpBufferTimer <= 5) || Input.IsActionJustPressed("ui_accept")))
+            if (_coyoteTimer <= CoyoteFrames && ((Input.IsActionPressed("ui_accept") && _jumpBufferTimer <= JumpBuffer) || Input.IsActionJustPressed("ui_accept")))
             {
                 _jumping = true;
+                _jumpBufferTimer += JumpBuffer + 1;
             }
             if (Input.IsActionPressed("ui_accept")) {
                 _jumpHeldDown = true;
@@ -83,6 +94,12 @@ namespace TestProject.Scenes.Components
 
             Parent.Velocity = velocity;
             Parent.MoveAndSlide();
+            if (Parent.IsOnCeiling()) {
+                velocity.Y = -0.25f * JumpSpeed;
+                _jumping = false;
+                _jumpTimer = 0;
+                _jumpBufferTimer = 0;
+            }
         }
     }
 }
